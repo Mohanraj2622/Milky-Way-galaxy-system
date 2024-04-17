@@ -1,0 +1,46 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.animation as animation
+
+# Define initial positions of stars and planets
+star_positions = {
+    "Sun": np.array([0, 0, 0]),
+    "Proxima Centauri": np.array([5, 2, 1]),
+    "Alpha Centauri A": np.array([4, 3, -1]),
+    "Alpha Centauri B": np.array([4.5, 2.5, 2])
+}
+
+planet_positions = {
+    "Earth": np.array([0.5, 0.1, 0.2]),
+    "Proxima Centauri b": np.array([5.1, 2.1, 1.8]),
+    "Alpha Centauri A b": np.array([4.2, 3.2, -0.8])
+}
+
+# Create figure and 3D axes
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Function to update the plot for each frame of the animation
+def update(num):
+    ax.clear()
+    ax.set_title("Milky Way Galaxy System 3D Animation")
+    ax.set_xlabel("X Position (arbitrary units)")
+    ax.set_ylabel("Y Position (arbitrary units)")
+    ax.set_zlabel("Z Position (arbitrary units)")
+    
+    # Plot stars
+    for star, pos in star_positions.items():
+        ax.scatter(pos[0], pos[1], pos[2], label=star, color='yellow', s=100)
+
+    # Plot planets
+    for planet, pos in planet_positions.items():
+        ax.scatter(pos[0], pos[1], pos[2], label=planet, color='blue', s=50)
+
+    # Add labels
+    for name, (x, y, z) in {**star_positions, **planet_positions}.items():
+        ax.text(x, y, z, name, fontsize=8)
+
+# Create animation
+ani = animation.FuncAnimation(fig, update, frames=range(360), interval=50)
+plt.show()
